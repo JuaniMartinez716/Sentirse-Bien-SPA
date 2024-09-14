@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+</head>
+<body>
+    <h1>Comentarios</h1>
+    <div id="comments-section"></div>
+
+    <script>
+        async function loadComments(postId) {
+            try {
+                const response = await fetch(`/comments/${postId}`);
+                if (!response.ok) throw new Error('Error al cargar los comentarios');
+                
+                const comments = await response.json();
+                const commentsSection = document.getElementById('comments-section');
+                commentsSection.innerHTML = '';
+
+                comments.forEach(comment => {
+                    const commentElement = document.createElement('div');
+                    commentElement.classList.add('comment');
+                    commentElement.innerHTML = `<span class="username">${comment.username}:</span> ${comment.content}`;
+                    commentsSection.appendChild(commentElement);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Asume que tienes un ID de post, cámbialo por el real
+        loadComments('1');
+    </script>
+</body>
+</html>
