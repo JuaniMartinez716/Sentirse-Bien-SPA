@@ -18,7 +18,8 @@ origins = [
     "http://localhost:3000",  # Si tu frontend corre en localhost:3000 (React u otra app local)
     "https://web-production-69664.up.railway.app",
     "https://lucas-ojeda.github.io/SPAsentirseBien/" ,
-    "https://lucas-ojeda.github.io/"
+    "https://lucas-ojeda.github.io/",
+    "https://lucas-ojeda.github.io/SPAsentirseBien/pages/signIn.html"
 ]
 
 # Agregar el middleware de CORS
