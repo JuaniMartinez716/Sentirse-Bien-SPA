@@ -16,7 +16,8 @@ app.include_router(comment.rt)
 origins = [
     "http://localhost",  # Permitir localhost sin puerto específico
     "http://localhost:3000",  # Si tu frontend corre en localhost:3000 (React u otra app local)
-    "https://web-production-69664.up.railway.app",  # Tu backend en Railway
+    "https://web-production-69664.up.railway.app",
+    "https://lucas-ojeda.github.io/SPAsentirseBien/" 
 ]
 
 # Agregar el middleware de CORS
