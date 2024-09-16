@@ -13,7 +13,7 @@ EXPIRE_TIME = 20
 
 db_users = data_base.users
 
-rt = APIRouter()
+rt = APIRouter(tags=["Login"])
 
 jinja2Template = Jinja2Templates(directory="api/templates")
 
@@ -34,15 +34,15 @@ def create_token(data: dict):
     return token_jwt
 
 
-@rt.get("/users/login", response_class=HTMLResponse)
+@rt.get("/login", response_class=HTMLResponse)
 async def root(request: Request):
     return jinja2Template.TemplateResponse("index.html", {"request": request})
 
-@rt.get("/users/dashboard", response_class=HTMLResponse)
+@rt.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request, access_token: Annotated[str | None, Cookie()] = None):
     
     if access_token is None:
-        return RedirectResponse("/users/login", status_code=302)
+        return RedirectResponse("/login", status_code=302)
     
     try:
         data_user = jwt.decode(access_token, key=SECRET, algorithms=["HS256"])
@@ -50,10 +50,10 @@ async def dashboard(request: Request, access_token: Annotated[str | None, Cookie
             return RedirectResponse("/users/login", status_code=302)
         return jinja2Template.TemplateResponse("dashboard.html", {"request": request})
     except:
-        return RedirectResponse("/users/login", status_code=302)
+        return RedirectResponse("/login", status_code=302)
 
 
-@rt.post("/users/login")
+@rt.post("/login")
 async def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):
     user_data = get_user(username, db_users)
     
@@ -72,6 +72,6 @@ async def login(username: Annotated[str, Form()], password: Annotated[str, Form(
     )
     
 
-@rt.get("/users/logout")
+@rt.get("/logout")
 async def logout():
-    return RedirectResponse("/users/login", status_code=302, headers={"set-cookie": "access_token=; Max-Age=0"})
+    return RedirectResponse("/login", status_code=302, headers={"set-cookie": "access_token=; Max-Age=0"})
